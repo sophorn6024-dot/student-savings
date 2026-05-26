@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="logo_KPL_School.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ប្រព័ន្ធគ្រប់គ្រងការសន្សំប្រាក់សិស្សពេញមួយឆ្នាំ</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Khmer+OS+Battambang&family=Moul&display=swap');
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Kantumruy Pro', 'Khmer OS Battambang', sans-serif; }
+        
+        body { 
+            background-color: #f0f4f8; 
+            color: #334155; 
+            padding: 30px 15px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-start; 
+            min-height: 100vh; 
+            padding-bottom: 90px; 
+        }
+        
+        .font-moul {
+            font-family: 'Moul', cursive;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+        
+        .container { 
+            width: 100%; 
+            max-width: 1340px; 
+            margin: 0 auto; 
+            display: none; 
+            background: white; 
+            padding: 24px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 25px rgba(30, 41, 59, 0.05); 
+        } 
+        
+        header { 
+            background: linear-gradient(135deg, #1e3c72, #2a5298); 
+            color: white; 
+            padding: 20px 30px; 
+            border-radius: 16px; 
+            margin-bottom: 24px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px; 
+            box-shadow: 0 10px 20px rgba(30, 60, 114, 0.15);
+        }
+        
+        .header-left { 
+            flex-shrink: 0; 
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-center { 
+            text-align: center; 
+            flex-grow: 1;
+        }
+        
+        .header-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .header-brand .school-icon {
+            font-size: 24px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header h1 { 
+            font-size: 16px; 
+            line-height: 1.8; 
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p { 
+            font-size: 13px; 
+            color: #cbd5e1;
+            margin-top: 2px; 
+            font-weight: 500;
+        }
+        
+        .btn-top { 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 10px; 
+            font-size: 13px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            transition: all 0.3s ease; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-top-settings { 
+            background: linear-gradient(135deg, #e67e22, #d35400); 
+        }
+
+        .btn-top-settings:hover { 
+            background: linear-gradient(135deg, #d35400, #b84500); 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 15px rgba(211, 84, 0, 0.3);
+        }
+
+        .btn-floating-logout {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+            transition: all 0.3s ease;
+            z-index: 9999; 
+        }
+
+        .btn-floating-logout:hover {
+            background: linear-gradient(135deg, #c0392b, #a93226);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
+        }
+        
+        .login-overlay { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1e3c72, #2a5298); z-index: 10000; justify-content: center; align-items: center; padding: 20px; }
+        .login-card { background: white; width: 100%; max-width: 420px; padding: 35px 30px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); text-align: center; }
+        .login-card h2 { font-size: 20px; color: #1e3c72; margin-bottom: 10px; line-height: 1.8; }
+        .login-card p { font-size: 13px; color: #64748b; margin-bottom: 24px; }
+        .login-error { color: #e74c3c; font-size: 12px; margin-bottom: 12px; display: none; font-weight: bold; background: #fdedec; padding: 8px; border-radius: 6px; }
+        
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.85); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #e2e8f0; border-top: 5px solid #2a5298; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { margin-top: 12px; font-weight: bold; color: #1e3c72; font-size: 14px; text-align: center; }
+
+        .filter-bar { background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 25px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+        .date-select-group { display: flex; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .month-select-container { display: flex; align-items: center; gap: 8px; }
+        .month-select-container label { font-size: 13px; font-weight: 700; color: #1e3c72; }
+        .select-month { padding: 8px 14px; border: 2px solid #2a5298; border-radius: 8px; font-size: 13px; font-weight: bold; color: #2a5298; outline: none; background: white; cursor: pointer; transition: all 0.2s; }
+        .select-month:hover { background-color: #f0f4f8; }
+
+        .nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+        .nav-btn { padding: 10px 18px; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; background-color: #e2e8f0; color: #475569; transition: all 0.3s; text-align: center; }
+        .nav-btn.active { background-color: #2a5298; color: white; box-shadow: 0 4px 10px rgba(42,82,152,0.25); }
+        .nav-btn.tab-purple.active { background-color: #7b1fa2; color: white; box-shadow: 0 4px 10px rgba(123,31,162,0.25); }
+        .nav-btn.tab-admin { background-color: #fce4ec; color: #c2185b; display: none; } 
+        .nav-btn.tab-admin.active { background-color: #c2185b; color: white; box-shadow: 0 4px 10px rgba(194,24,91,0.25); }
+
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .settings-sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 20000; display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .settings-sidebar { position: fixed; top: 0; right: -400px; width: 100%; max-width: 400px; height: 100%; background: white; box-shadow: -5px 0 25px rgba(0,0,0,0.15); padding: 30px 25px; z-index: 20001; transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); overflow-y: auto; display: flex; flex-direction: column; }
+        .settings-sidebar-overlay.open { display: block; opacity: 1; }
+        .settings-sidebar-overlay.open .settings-sidebar { right: 0; left: auto; }
+
+        .dashboard-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .summary-card { background: white; padding: 18px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; border-left: 5px solid #2a5298; }
+        .summary-card.shares { border-left-color: #2ecc71; }
+        .summary-card.remains { border-left-color: #e67e22; }
+        .summary-card span { font-size: 12px; color: #64748b; font-weight: 600; display: block; margin-bottom: 4px; }
+        .summary-card h2 { font-size: 22px; color: #2a5298; }
+        .summary-card.shares h2 { color: #2ecc71; }
+        .summary-card.remains h2 { color: #e67e22; }
+
+        .card { background: white; border-radius: 14px; padding: 24px; border: 1px solid #e2e8f0; margin-bottom: 24px; box-shadow: 0 2px 5px rgba(0,0,0,0.01); }
+        .card-title { font-size: 15px; font-weight: 700; color: #1e3c72; margin-bottom: 18px; border-bottom: 2px solid #f0f4f8; padding-bottom: 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
+        
+        .search-container { position: relative; min-width: 220px; display: flex; align-items: center; gap: 5px; }
+        .search-control { width: 100%; padding: 8px 14px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 12px; outline: none; transition: all 0.2s; }
+        .search-control:focus { border-color: #2a5298; }
+
+        .form-group { margin-bottom: 16px; text-align: left; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #475569; }
+        .form-control { width: 100%; padding: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; transition: border 0.2s; }
+        .form-control:focus { border-color: #2a5298; box-shadow: 0 0 0 3px rgba(42,82,152,0.1); }
+        .form-control:disabled { background-color: #f1f5f9; color: #64748b; }
+        
+        .row-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 5px; }
+        .week-box { background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 12px; }
+        .week-title { font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 8px; border-bottom: 1px dashed #e2e8f0; padding-bottom: 6px; }
+
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 5px; }
+        .btn-primary { background-color: #2a5298; color: white; }
+        .btn-primary:hover { background-color: #1e3c72; }
+        .btn-danger { background-color: #e74c3c; color: white; }
+        .btn-danger:hover { background-color: #c0392b; }
+        .btn-success { background-color: #2ecc71; color: white; }
+        .btn-success:hover { background-color: #27ae60; }
+        .btn-secondary { background-color: #64748b; color: white; }
+        .btn-inline { width: auto; padding: 8px 16px; margin: 0; font-size: 12px; display: inline-flex; align-items: center; gap: 5px; border-radius: 6px; }
+
+        .table-responsive { overflow-x: auto; border-radius: 10px; border: 1px solid #e2e8f0; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: center; min-width: 1500px; }
+        th, td { padding: 12px 8px; border: 1px solid #e2e8f0; }
+        th { background-color: #f1f5f9; color: #1e293b; font-weight: 700; }
+        .sub-header th { font-size: 10px; padding: 6px; background-color: #f8fafc; color: #64748b; }
+        .date-header { font-size: 9px; color: #2a5298; display: block; margin-top: 2px; }
+        
+        tr:nth-child(even) td { background-color: #f8fafc; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+        .badge-success { background-color: #e2f5e9; color: #15803d; }
+        .badge-info { background-color: #e0f2fe; color: #0369a1; }
+        .badge-purple { background-color: #f3e8ff; color: #6b21a8; }
+        .text-right { text-align: right; }
+        .fw-bold { font-weight: bold; }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 68px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
+            border-top: 1px solid #e2e8f0;
+            z-index: 999;
+        }
+
+        .bottom-nav-btn {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 20%;
+            height: 100%;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .bottom-nav-btn i { font-size: 18px; }
+        .bottom-nav-btn.active { color: #2a5298; }
+        .bottom-nav-btn.tab-purple.active { color: #7b1fa2; }
+        .bottom-nav-btn.tab-admin.active { color: #c2185b; }
+        .bottom-nav-btn.tab-admin { display: none; } 
+        .bottom-nav-btn.btn-logout-mobile { color: #e74c3c; }
+
+        @media (max-width: 900px) {
+            header { flex-direction: column; text-align: center; padding: 20px; }
+            .header-left { display: none; }
+            .btn-top { width: 100%; max-width: 250px; justify-content: center; }
+            .filter-bar .nav-tabs { display: none; }
+            .btn-floating-logout { display: none !important; }
+        }
+
+        @media (min-width: 901px) {
+            .bottom-nav { display: none; }
+            body { padding-bottom: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="authOverlay" class="login-overlay">
+    <div class="login-card">
+        <h2 style="font-size: 40px; margin-bottom: 5px;">🏫</h2>
+        <h2 class="font-moul">សាលាបឋមសិក្សាកំពង់ល្ពៅ</h2>
+        <p style="margin-top: 5px;">ប្រព័ន្ធគ្រប់គ្រងការសន្សំប្រាក់សិស្សពេញមួយឆ្នាំ</p>
+        <div id="loginError" class="login-error">❌ ឈ្មោះគណនី ឬលេខសម្ងាត់មិនត្រឹមត្រូវ!</div>
+        <div class="form-group">
+            <label style="color: #1e3c72; font-weight: bold;">👤 ឈ្មោះអ្នកប្រើប្រាស់ (Username)៖</label>
+            <input type="text" id="loginUsername" class="form-control" placeholder="វាយឈ្មោះគណនីគ្រូ ឬ Admin...">
+        </div>
+        <div class="form-group">
+            <label style="color: #1e3c72; font-weight: bold;">🔑 លេខសម្ងាត់ (Password)៖</label>
+            <input type="password" id="loginPassword" class="form-control" style="text-align: center; font-size: 18px; letter-spacing: 2px;" placeholder="******" onkeypress="handleLoginKeyPress(event)">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="checkOnlineLogin()" style="padding: 12px; font-size: 14px;">🔓 ចូលទៅកាន់ប្រព័ន្ធ</button>
+         <!-- ប្តូរពី onclick="toggleAuthMode(event)" ទៅជាការ Link ទៅកាន់ឯកសារផ្ទាល់ -->
+<p style="margin-top: 15px; font-size: 12px;">
+    <span>មិនទាន់មានគណនី?</span> 
+    <a href="admin.html" style="color: #2a5298; font-weight: bold; text-decoration: none;">ចុះឈ្មោះ (បង្កើតគណនី)</a>
+</p>
+
+
+    </div>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loadingText">📥 កំពុងដំណើរការ...</div>
+</div>
+
+<div class="container" id="mainContainer">
+    <header>
+        <div class="header-left">
+            <button class="btn-top btn-top-settings" onclick="openSettingsSidebar()">
+                <i class="fa-solid fa-gear"></i> ការកំណត់
+            </button>
+        </div>
+        <div class="header-center">
+            <div class="header-brand">
+                <span class="school-icon">🏫</span>
+                <h1 class="font-moul">ប្រព័ន្ធគ្រប់គ្រងការសន្សំប្រាក់សិស្សសាលាបឋមសិក្សាកំពង់ល្ពៅ</h1>
+            </div>
+            <p>សាលាបឋមសិក្សាកំពង់ល្ពៅ • ១ ហ៊ុន = ១០,០០០ ៛</p>
+        </div>
+    </header>
+
+    <div class="filter-bar">
+        <div class="date-select-group">
+            <div class="month-select-container">
+                <label>ជ្រើសរើសខែ៖</label>
+                <select id="currentMonthFilter" class="select-month" onchange="handleDateChange()">
+                    <option value="1">ខែមករា</option><option value="2">ខែកុម្ភៈ</option>
+                    <option value="3">ខែមីនា</option><option value="4">ខែមេសា</option>
+                    <option value="5">ខែឧសភា</option><option value="6">ខែមិថុនា</option>
+                    <option value="7">ខែកក្កដា</option><option value="8">ខែសីហា</option>
+                    <option value="9">ខែកញ្ញា</option><option value="10">ខែតុលា</option>
+                    <option value="11">ខែវិច្ឆិកា</option><option value="12">ខែធ្នូ</option>
+                </select>
+            </div>
+        </div>
+        <div class="nav-tabs">
+            <button class="nav-btn active" id="tabTable" onclick="switchPage('tablePage')">📊 មើលបញ្ជីសរុប</button>
+            <button class="nav-btn" id="tabForm" onclick="switchPage('formPage')">✍️ បញ្ចូលទិន្នន័យ</button>
+            <button class="nav-btn tab-purple" id="tabCalculate" onclick="switchPage('calculatePage')">🗓️ គណនាខែសន្សំ</button>
+            <button class="nav-btn tab-admin" id="tabAdmin" onclick="switchPage('adminPage')">👤 គ្រប់គ្រងគ្រូ (Admin)</button>
+        </div>
+    </div>
+
+    <div id="tablePage" class="page active">
+        <div class="dashboard-summary">
+            <div class="summary-card"><span>សិស្សសរុបរួម</span><h2 id="sumStudents">0</h2></div>
+            <div class="summary-card"><span>លុយសន្សំប្រចាំខែនេះ</span><h2 id="sumMoney">0</h2></div>
+            <div class="summary-card shares"><span>ហ៊ុនកើតថ្មីខែនេះ</span><h2 id="sumShares">0</h2></div>
+            <div class="summary-card remains"><span>លុយរាយសល់ខែនេះ</span><h2 id="sumRemains">0</h2></div>
+        </div>
+        <div class="card">
+            <div class="card-title">
+                <span class="font-moul" style="font-size:14px;">📊 តារាងតាមដាន - <span id="tableMonthTitle" style="color:#e67e22;">ខែមករា</span></span>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                    <div class="search-container">
+                        <input type="text" id="searchStudentInput" class="search-control" placeholder="🔍 ស្វែងរកឈ្មោះសិស្ស..." onkeyup="handleSearch()">
+                    </div>
+                    <button class="btn btn-secondary btn-inline" onclick="toggleSortName()" id="btnSort">🔤 តម្រៀបឈ្មោះ (ក-អ)</button>
+                    <button class="btn btn-success btn-inline" onclick="exportToExcel('savingsTable')">📥 ទាញយកជា Excel</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="savingsTable">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">ល.រ</th>
+                            <th rowspan="2" style="width:155px;">គោត្តនាម និងនាម</th>
+                            <th rowspan="2">ភេទ</th>
+                            <th rowspan="2">ថ្នាក់</th>
+                            <th rowspan="2" style="background-color: #fff8e1;">ហ៊ុន<br>ដើមគ្រា</th>
+                            <th rowspan="2" style="background-color: #fff8e1;">លុយ<br>ដើមគ្រា</th>
+                            <th colspan="2">សប្ដាហ៍ទី១</th>
+                            <th colspan="2">សប្ដាហ៍ទី២</th>
+                            <th colspan="2">សប្ដាហ៍ទី៣</th>
+                            <th colspan="2">សប្ដាហ៍ទី៤</th>
+                            <th rowspan="2">ថវិកាសរុប<br>(ខែនេះ)</th>
+                            <th rowspan="2">ហ៊ុនកើតថ្មី<br>(ខែនេះ)</th>
+                            <th rowspan="2">ថវិកានៅសល់<br>(ខែនេះ)</th>
+                            <th rowspan="2" style="background-color: #e8f5e9;">ចំនួនហ៊ុន<br>សរុបចុងគ្រា</th>
+                            <th rowspan="2" class="action-col" style="width:110px;">សកម្មភាព</th>
+                        </tr>
+                        <tr class="sub-header">
+                            <th>ដងទី១<span id="h_d1_1" class="date-header">-</span></th>
+                            <th>ដងទី២<span id="h_d1_2" class="date-header">-</span></th>
+                            <th>ដងទី១<span id="h_d2_1" class="date-header">-</span></th>
+                            <th>ដងទី២<span id="h_d2_2" class="date-header">-</span></th>
+                            <th>ដងទី១<span id="h_d3_1" class="date-header">-</span></th>
+                            <th>ដងទី២<span id="h_d3_2" class="date-header">-</span></th>
+                            <th>ដងទី១<span id="h_d4_1" class="date-header">-</span></th>
+                            <th>ដងទី២<span id="h_d4_2" class="date-header">-</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                    <tfoot>
+                        <tr style="background-color: #eaedf2; font-weight:bold;">
+                            <td colspan="4" style="color:#2a5298;">បូកសរុបរួម</td>
+                            <td id="t_initShares">0</td>
+                            <td id="t_initMoney" class="text-right">0</td>
+                            <td id="t_v1_1">0</td><td id="t_v1_2">0</td>
+                            <td id="t_v2_1">0</td><td id="t_v2_2">0</td>
+                            <td id="t_v3_1">0</td><td id="t_v3_2">0</td>
+                            <td id="t_v4_1">0</td><td id="t_v4_2">0</td>
+                            <td id="gMoney" class="text-right" style="color:#2ecc71;">0</td>
+                            <td id="gShares">0</td>
+                            <td id="gRemains" class="text-right" style="color:#e67e22;">0</td>
+                            <td id="gTotalShares" style="color:#1e3c72; background-color:#e8f5e9;">0</td>
+                            <td class="action-col">-</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="formPage" class="page">
+        <div class="card" style="max-width: 500px; margin: 0 auto;">
+            <div class="card-title">
+                <span id="formActionTitle" class="font-moul" style="font-size:14px;">បញ្ចូលព័ត៌មាន និងលុយសន្សំ</span>
+                <span id="editBadge" class="badge badge-info" style="display:none;">កែប្រែ</span>
+            </div>
+            <div id="monthNotice" style="font-size: 12px; padding: 10px; background-color: #e8f4fd; color: #1e3c72; border-radius: 8px; margin-bottom: 14px; line-height: 1.5;"></div>
+            <input type="hidden" id="studentId">
+            <div class="form-group">
+                <label>គោត្តនាម និងនាមសិស្ស</label>
+                <input type="text" id="studentName" class="form-control" placeholder="វាយឈ្មោះសិស្សនៅទីនេះ...">
+            </div>
+            <div class="row-grid">
+                <div class="form-group">
+                    <label>ភេទ</label>
+                    <select id="studentGender" class="form-control">
+                        <option value="ស្រី">ស្រី</option>
+                        <option value="ប្រុស">ប្រុស</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ថ្នាក់ទី</label>
+                    <select id="studentClass" class="form-control">
+                        <option value="១(ក)">ថ្នាក់ទី ១(ក)</option><option value="១(ខ)">ថ្នាក់ទី ១(ខ)</option>
+                        <option value="២(ក)">ថ្នាក់ទី ۲(ក)</option><option value="២(ខ)">ថ្នាក់ទី ២(ខ)</option>
+                        <option value="៣(ក)">ថ្នាក់ទី ៣(ក)</option><option value="៣(ខ)">ថ្នាក់ទី ៣(ខ)</option>
+                        <option value="៤(ក)" selected>ថ្នាក់ទី ៤(ក)</option><option value="៤(ខ)">ថ្នាក់ទី ៤(ខ)</option>
+                        <option value="៥(ក)">ថ្នាក់ទី ៥(ក)</option><option value="៥(ខ)">ថ្នាក់ទី ៥(ខ)</option>
+                        <option value="៦(ក)">ថ្នាក់ទី ៦(ក)</option><option value="៦(ខ)">ថ្នាក់ទី ៦(ខ)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row-grid">
+                <div class="form-group">
+                    <label id="lblInitShares">ហ៊ុនដើមគ្រា</label>
+                    <input type="number" id="initShares" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label id="lblInitMoney">លុយដើមគ្រា</label>
+                    <input type="number" id="initMoney" class="form-control">
+                </div>
+            </div>
+            <div class="week-box">
+                <div class="week-title">សប្ដាហ៍ទី ១</div>
+                <div class="row-grid"><input type="date" id="d1_1" class="form-control"><input type="date" id="d1_2" class="form-control"></div>
+                <div class="row-grid"><input type="number" id="v1_1" class="form-control"><input type="number" id="v1_2" class="form-control"></div>
+            </div>
+            <div class="week-box">
+                <div class="week-title">សប្ដាហ៍ទី ២</div>
+                <div class="row-grid"><input type="date" id="d2_1" class="form-control"><input type="date" id="d2_2" class="form-control"></div>
+                <div class="row-grid"><input type="number" id="v2_1" class="form-control"><input type="number" id="v2_2" class="form-control"></div>
+            </div>
+            <div class="week-box">
+                <div class="week-title">សប្ដាហ៍ទី ៣</div>
+                <div class="row-grid"><input type="date" id="d3_1" class="form-control"><input type="date" id="d3_2" class="form-control"></div>
+                <div class="row-grid"><input type="number" id="v3_1" class="form-control"><input type="number" id="v3_2" class="form-control"></div>
+            </div>
+            <div class="week-box">
+                <div class="week-title">សប្ដាហ៍ទី ៤</div>
+                <div class="row-grid"><input type="date" id="d4_1" class="form-control"><input type="date" id="d4_2" class="form-control"></div>
+                <div class="row-grid"><input type="number" id="v4_1" class="form-control"><input type="number" id="v4_2" class="form-control"></div>
+            </div>
+            <button type="button" id="btnSave" class="btn btn-primary" onclick="handleSave()">💾 រក្សាទុកទិន្នន័យ</button>
+            <button type="button" id="btnCancel" class="btn btn-secondary" onclick="resetForm()" style="display:none; margin-top: 8px;">❌ បោះបង់</button>
+        </div>
+    </div>
+
+    <div id="calculatePage" class="page">
+        <div class="card">
+            <div class="card-title" style="border-bottom: 2px solid #f3e5f5;">
+                <span class="font-moul" style="color:#7b1fa2; font-size:14px;">🗓️ ផ្ទាំងគណនាចំនួនខែសន្សំរួម</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+                    <div class="month-select-container">
+                        <label style="color:#7b1fa2;">🎯 គិតត្រឹមខែ៖</label>
+                        <select id="calcMonthFilter" class="select-month" style="border-color:#7b1fa2; color:#7b1fa2;" onchange="renderCalculationTable()">
+                            <option value="1">ខែមករា</option><option value="2">ខែកុម្ភៈ</option>
+                            <option value="3">ខែមីនា</option><option value="4">ខែមេសា</option>
+                            <option value="5">ខែឧសភា</option><option value="6">ខែមិថុនា</option>
+                            <option value="7">ខែកក្កដា</option><option value="8">ខែសីហា</option>
+                            <option value="9">ខែកញ្ញា</option><option value="10">ខែតុលា</option>
+                            <option value="11">ខែវិច្ឆិកា</option><option value="12">ខែធ្នូ</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-success btn-inline" onclick="exportToExcel('calcTable')">📥 ទាញយកជា Excel</button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="calcTable" style="min-width: 900px;">
+                    <thead>
+                        <tr style="background-color: #f3e5f5;">
+                            <th>ល.រ</th>
+                            <th>គោត្តនាម និងនាមសិស្ស</th>
+                            <th>ភេទ</th>
+                            <th>ថ្នាក់</th>
+                            <th style="background-color: #e8f5e9;">ចំនួនហ៊ុនសរុប</th>
+                            <th style="background-color: #e1f5fe;">គិតត្រឹមខែ</th>
+                            <th style="background-color: #fff3e0; color: #d35400;">ចំនួនខែសរុប</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calcTableBody"></tbody>
+                    <tfoot>
+                        <tr style="background-color: #f3e5f5; font-weight: bold;">
+                            <td colspan="4" style="color:#7b1fa2;">បូកសរុបរួមទាំងអស់</td>
+                            <td id="calcTotalShares">0</td>
+                            <td>-</td>
+                            <td id="calcGrandResult" style="color:#b71c1c; font-size: 15px;">0</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminPage" class="page">
+        <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px;">
+            <div class="card">
+                <div class="card-title" style="color: #c2185b; border-bottom: 2px solid #fce4ec;">
+                    <span class="font-moul" style="font-size:13px;">➕ បង្កើតគណនីគ្រូថ្មី (Add New Teacher)</span>
+                </div>
+                <div class="form-group">
+                    <label>👤 ឈ្មោះគណនីគ្រូ (Username)៖</label>
+                    <input type="text" id="adminTeacherUser" class="form-control" placeholder="ឧទាហរណ៍៖ sophorn">
+                </div>
+                <div class="form-group">
+                    <label>🔑 កំណត់លេខសម្ងាត់ (Password)៖</label>
+                    <input type="password" id="adminTeacherPass" class="form-control" placeholder="******">
+                </div>
+                <div class="form-group">
+                    <label>🏫 ជ្រើសរើសថ្នាក់ឱ្យទទួលខុសត្រូវ៖</label>
+                    <select id="adminTeacherClass" class="form-control">
+                        <option value="១(ក)">ថ្នាក់ទី ១(ក)</option><option value="១(ខ)">ថ្នាក់ទី ១(ខ)</option>
+                        <option value="២(ក)">ថ្នាក់ទី ២(ក)</option><option value="២(ខ)">ថ្នាក់ទី ២(ខ)</option>
+                        <option value="៣(ក)">ថ្នាក់ទី ៣(ក)</option><option value="៣(ខ)">ថ្នាក់ទី ៣(ខ)</option>
+                        <option value="៤(ក)">ថ្នាក់ទី ៤(ក)</option><option value="៤(ខ)">ថ្នាក់ទី ៤(ខ)</option>
+                        <option value="៥(ក)">ថ្នាក់ទី ៥(ក)</option><option value="៥(ខ)">ថ្នាក់ទី ៥(ខ)</option>
+                        <option value="៦(ក)">ថ្នាក់ទី ៦(ក)</option><option value="៦(ខ)">ថ្នាក់ទី ៦(ខ)</option>
+                    </select>
+                </div>
+                <button type="button" class="btn btn-success" onclick="adminCreateTeacherAccount()" style="background-color: #c2185b;">💾 បង្កើត និងរក្សាទុកគណនី</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-title" style="border-bottom: 2px solid #e2e8f0;">
+                    <span class="font-moul" style="font-size:14px;">👥 បញ្ជីគណនីគ្រូក្នុងប្រព័ន្ធ</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table" style="min-width: 100%;">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center; width: 70px;">ល.រ</th>
+                                <th style="text-align:left; padding-left: 15px;">ឈ្មោះគណនី (Username)</th>
+                                <th style="text-align:center;">ថ្នាក់គ្រប់គ្រង</th>
+                                <th style="text-align:center; width: 120px;">ស្ថានភាព</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teacherTableBody">
+                            <tr>
+                                <td colspan="4" style="text-align:center; color:#94a3b8; padding: 20px;">កំពុងទាញទិន្នន័យ...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="btn-floating-logout" onclick="handleLogout()">
+    <i class="fa-solid fa-right-from-bracket"></i> ចាកចេញ
+</button>
+
+<div class="bottom-nav" id="mobileBottomNav">
+    <button class="bottom-nav-btn active" id="mTabTable" onclick="switchPage('tablePage')">
+        <i class="fa-solid fa-chart-simple"></i>
+        <span>បញ្ជីសរុប</span>
+    </button>
+    <button class="bottom-nav-btn" id="mTabForm" onclick="switchPage('formPage')">
+        <i class="fa-solid fa-pen-to-square"></i>
+        <span>បញ្ចូលទិន្នន័យ</span>
+    </button>
+    <button class="bottom-nav-btn tab-purple" id="mTabCalculate" onclick="switchPage('calculatePage')">
+        <i class="fa-solid fa-calendar-days"></i>
+        <span>គណនាខែ</span>
+    </button>
+    <button class="bottom-nav-btn tab-admin" id="mTabAdmin" onclick="switchPage('adminPage')">
+        <i class="fa-solid fa-user-gear"></i>
+        <span>គ្រូ (Admin)</span>
+    </button>
+    <button class="bottom-nav-btn btn-logout-mobile" onclick="handleLogout()">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>ចាកចេញ</span>
+    </button>
+</div>
+
+<div id="settingsSidebarOverlay" class="settings-sidebar-overlay" onclick="closeSettingsSidebar(event)">
+    <div class="settings-sidebar" onclick="event.stopPropagation()">
+        <div class="card-title" style="border-bottom: 2px solid #ffe0b2; padding-bottom: 10px;">
+            <span class="font-moul" style="color:#e67e22; font-size: 14px;">⚙️ ការកំណត់គណនី</span>
+            <button onclick="closeSettingsSidebar(event)" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #94a3b8; line-height: 1;">&times;</button>
+        </div>
+        <div style="margin: 20px 0; padding: 14px; background-color: #fff3e0; border-radius: 10px;">
+            <p style="font-size: 13px; color: #d35400; font-weight: bold;">👤 គណនី៖ <span id="currentProfileUser" style="color: #1e3c72;">-</span></p>
+            <p style="font-size: 12px; color: #64748b; margin-top: 6px;" id="sidebarClassNotice">-</p>
+        </div>
+        <div style="flex-grow: 1;">
+            <h3 style="font-size: 13px; margin-bottom: 12px; color: #2a5298; font-weight: bold;">🔑 ផ្លាស់ប្តូរលេខសម្ងាត់ (Change Password)</h3>
+            <div class="form-group">
+                <label>លេខសម្ងាត់ថ្មី៖</label>
+                <input type="password" id="newTeacherPassword" class="form-control" placeholder="វាយលេខសម្ងាត់ថ្មី...">
+            </div>
+            <div class="form-group">
+                <label>វាយលេខសម្ងាត់ថ្មីម្តងទៀត៖</label>
+                <input type="password" id="confirmTeacherPassword" class="form-control" placeholder="ផ្ទៀងផ្ទាត់លេខសម្ងាត់ថ្មី...">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="changeTeacherPasswordOnline()" style="margin-top: 10px;">🔄 ធ្វើបច្ចុប្បន្នភាពលេខសម្ងាត់</button>
+        </div>
+        <button type="button" class="btn btn-top btn-logout" onclick="handleLogout()" style="width: 100%; margin-top: 15px; margin-bottom: 10px; justify-content: center; background: linear-gradient(135deg, #e74c3c, #c0392b);">
+            <i class="fa-solid fa-lock"></i> ចាកចេញពីប្រព័ន្ធ
+        </button>
+        <button type="button" class="btn btn-secondary" onclick="closeSettingsSidebar(event)" style="background-color: #94a3b8; margin-top: 0;">❌ បិទចាកចេញ</button>
+    </div>
+</div>
+
+<script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxof5Q4OPkZz7HsRw_irkkl_3hcJCznXBfOrZwQSvK5V2INApJLN8bKW_gMWQj0EaHR/exec";
+    
+    let masterStudents = [];
+    let monthlySavings = {};
+    let allTeacherAccounts = []; 
+    let currentMonth = 1; 
+    const monthNames = {1:"មករា", 2:"ខែកុម្ភៈ", 3:"មីនា", 4:"មេសា", 5:"ឧសភា", 6:"មិថុនា", 7:"កក្កដា", 8:"សីហា", 9:"កញ្ញា", 10:"តុលា", 11:"វិច្ឆិកា", 12:"ធ្នូ"};
+    let searchQuery = ""; 
+    let selectedClassFilter = "all"; 
+    let isEditing = false, currentEditId = null;
+    let isSortedName = false; 
+    let loggedInUser = "";
+
+    document.addEventListener("DOMContentLoaded", () => { checkSavedLogin(); });
+
+    function openSettingsSidebar() {
+        const sidebarOverlay = document.getElementById("settingsSidebarOverlay");
+        sidebarOverlay.style.display = "block";
+        setTimeout(() => { sidebarOverlay.classList.add("open"); }, 10);
+    }
+
+    function closeSettingsSidebar(event) {
+        if(event) event.preventDefault();
+        const sidebarOverlay = document.getElementById("settingsSidebarOverlay");
+        sidebarOverlay.classList.remove("open");
+        setTimeout(() => { sidebarOverlay.style.display = "none"; }, 300);
+    }
+
+    function checkOnlineLogin() {
+        const inputUser = document.getElementById("loginUsername").value.trim().toLowerCase();
+        const inputPass = document.getElementById("loginPassword").value;
+        const errorDiv = document.getElementById("loginError");
+        
+        if (!inputUser || !inputPass) { alert("សូមវាយឈ្មោះគណនី និងលេខសម្ងាត់!"); return; }
+        showLoading("🔒 កំពុងផ្ទៀងផ្ទាត់គណនីតាមប្រព័ន្ធអនឡាញ...");
+
+        fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "login", data: { username: inputUser, password: inputPass } })
+        })
+        .then(res => res.json())
+        .then(resData => {
+            hideLoading();
+            if(resData.status === "success") {
+                errorDiv.style.display = "none";
+                document.getElementById("authOverlay").style.display = "none";
+                document.getElementById("mainContainer").style.display = "block";
+                
+                let expiryDate = new Date();
+                expiryDate.setDate(expiryDate.getDate() + 7); 
+                localStorage.setItem("isTeacherLoggedIn", "true");
+                localStorage.setItem("loginExpiry", expiryDate.getTime());
+                localStorage.setItem("currentActiveUser", inputUser);
+                localStorage.setItem("userAssignedClass", resData.assignedClass || "all");
+                
+                loggedInUser = inputUser;
+                applyUserPrivileges(); 
+                loadDataFromGoogleSheets(); 
+            } else {
+                errorDiv.style.display = "block";
+                document.getElementById("loginPassword").value = "";
+                document.getElementById("loginPassword").focus();
+            }
+        })
+        .catch(err => {
+            console.error(err); hideLoading();
+            alert("❌ មិនអាចភ្ជាប់ទៅកាន់ប្រព័ន្ធផ្ទៀងផ្ទាត់បានទេ! សូមពិនិត្យមើលអ៊ីនធឺណិត។");
+        });
+    }
+
+    function handleLoginKeyPress(event) { if (event.key === "Enter") { checkOnlineLogin(); } }
+
+    function checkSavedLogin() {
+        const isLoggedIn = localStorage.getItem("isTeacherLoggedIn");
+        const expiry = localStorage.getItem("loginExpiry");
+        const now = new Date().getTime();
+
+        if(isLoggedIn === "true" && expiry && now < parseInt(expiry)) {
+            document.getElementById("authOverlay").style.display = "none";
+            document.getElementById("mainContainer").style.display = "block";
+            loggedInUser = localStorage.getItem("currentActiveUser") || "";
+            applyUserPrivileges();
+            loadDataFromGoogleSheets();
+        } else {
+            localStorage.clear();
+            document.getElementById("authOverlay").style.display = "flex";
+            document.getElementById("mainContainer").style.display = "none";
+        }
+    }
+
+    function handleLogout() {
+        if(confirm("⚠ តើអ្នកពិតជាចង់ចាកចេញពីប្រព័ន្ធមែនទេ?")) {
+            localStorage.clear();
+            document.getElementById("loginUsername").value = "";
+            document.getElementById("loginPassword").value = "";
+            document.getElementById("authOverlay").style.display = "flex";
+            document.getElementById("mainContainer").style.display = "none";
+            closeSettingsSidebar();
+        }
+    }
+
+    function applyUserPrivileges() {
+        document.getElementById("currentProfileUser").innerText = loggedInUser.toUpperCase();
+        let assignedClass = localStorage.getItem("userAssignedClass") || "all";
+        selectedClassFilter = assignedClass;
+        
+        const adminTab = document.getElementById("tabAdmin");
+        const mobileAdminTab = document.getElementById("mTabAdmin"); 
+        const sidebarNotice = document.getElementById("sidebarClassNotice");
+
+        if(loggedInUser === "admin") {
+            sidebarNotice.innerText = "សិទ្ធិ៖ Admin (គ្រប់គ្រងគ្រប់ថ្នាក់)";
+            adminTab.style.display = "inline-block"; 
+            if(mobileAdminTab) mobileAdminTab.style.display = "flex"; 
+        } else {
+            sidebarNotice.innerText = `ថ្នាក់ទទួលខុសត្រូវ៖ ថ្នាក់ទី ${assignedClass}`;
+            adminTab.style.display = "none"; 
+            if(mobileAdminTab) mobileAdminTab.style.display = "none"; 
+        }
+        document.getElementById("studentClass").value = assignedClass === "all" ? "៤(ក)" : assignedClass;
+    }
+
+    function adminCreateTeacherAccount() {
+        if(loggedInUser !== "admin") return;
+        const uName = document.getElementById("adminTeacherUser").value.trim().toLowerCase();
+        const pWord = document.getElementById("adminTeacherPass").value;
+        const assignedClass = document.getElementById("adminTeacherClass").value;
+
+        if(!uName || !pWord) { alert("❌ សូមបំពេញឈ្មោះ និងលេខសម្ងាត់គ្រូ!"); return; }
+        if(pWord.length < 4) { alert("❌ លេខសម្ងាត់គ្រូត្រូវមានយ៉ាងហោចណាស់ ៤ខ្ទង់!"); return; }
+
+        showLoading("📤 Admin កំពុងបង្កើតគណនីគ្រូថ្មីទៅកាន់ Google Sheets...");
+        
+        fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify({
+                action: "register",
+                data: { username: uName, password: pWord, assignedClass: assignedClass }
+            })
+        })
+        .then(res => res.json())
+        .then(resData => {
+            hideLoading();
+            if(resData && resData.status === "error") {
+                alert("❌ " + resData.message);
+            } else {
+                alert(`🎉 បង្កើតគណនីជូនលោកគ្រូ-អ្នកគ្រូ "${uName}" ជោគជ័យ!`);
+                document.getElementById("adminTeacherUser").value = "";
+                document.getElementById("adminTeacherPass").value = "";
+                loadDataFromGoogleSheets(); 
+            }
+        })
+        .catch(err => {
+            console.error(err); hideLoading(); alert("❌ បរាជ័យក្នុងការបង្កើតគណនីគ្រូ!");
+        });
+    }
+
+    function loadDataFromGoogleSheets() {
+        showLoading(`📥 កំពុងទាញទិន្នន័យពី Google Sheets...`);
+        let script = document.createElement('script');
+        script.src = API_URL + "?action=read&callback=handleGoogleSheetsResponse&_ts=" + Date.now();
+        document.body.appendChild(script);
+    }
+
+    window.handleGoogleSheetsResponse = function(data) {
+        masterStudents = [];
+        if(data.students && data.students.length > 1) {
+            for(let i=1; i<data.students.length; i++) {
+                masterStudents.push({ id: data.students[i][0], name: data.students[i][1], gender: data.students[i][2], studentClass: data.students[i][3] || "៤(ក)" });
+            }
+        }
+        
+        monthlySavings = {};
+        if(data.savings && data.savings.length > 1) {
+            for(let i=1; i<data.savings.length; i++) {
+                let r = data.savings[i]; let m = parseInt(r[0]); let stId = r[1];
+                if(!monthlySavings[m]) monthlySavings[m] = {};
+                monthlySavings[m][stId] = {
+                    initShares: Number(r[2]) || 0, initMoney: Number(r[3]) || 0,
+                    dates: { d1_1:r[4], d1_2:r[5], d2_1:r[6], d2_2:r[7], d3_1:r[8], d3_2:r[9], d4_1:r[10], d4_2:r[11] },
+                    vals: { v1_1:Number(r[12])||0, v1_2:Number(r[13])||0, v2_1:Number(r[14])||0, v2_2:Number(r[15])||0, v3_1:Number(r[16])||0, v3_2:Number(r[17])||0, v4_1:Number(r[18])||0, v4_2:Number(r[19])||0 }
+                };
+            }
+        }
+
+        allTeacherAccounts = [];
+        if(data.teachers && data.teachers.length > 1) {
+            // ចាប់ផ្តើមពីរាប់ពី i=1 ព្រោះលើកនេះយើងផ្ញើទាំង Header (usersData) មកពី Apps Script
+            for(let i=1; i<data.teachers.length; i++) {
+                if(data.teachers[i].length > 0 && data.teachers[i][0]) {
+                    allTeacherAccounts.push({ 
+                        username: data.teachers[i][0], 
+                        assignedClass: data.teachers[i][2] || "all" 
+                    });
+                }
+            }
+        }
+        renderTeacherTable();
+        
+        updateMonthUI();
+        renderTable();
+        renderCalculationTable();
+        hideLoading();
+    };
+
+    function renderTeacherTable() {
+        const tbody = document.getElementById("teacherTableBody");
+        if(!tbody) return;
+        tbody.innerHTML = "";
+        
+        if(allTeacherAccounts.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" style="padding:15px; color:#999; text-align:center;">មិនមានគណនីគ្រូឡើយ</td></tr>`;
+            return;
+        }
+
+        allTeacherAccounts.forEach((t, idx) => {
+            let tr = document.createElement("tr");
+            let displayClass = t.assignedClass === "all" ? "គ្រប់គ្រងទូទៅ" : "ថ្នាក់ទី " + t.assignedClass;
+            tr.innerHTML = `
+                <td style="text-align:center;">${idx + 1}</td>
+                <td style="font-weight:bold; color:#1e3c72; text-align:left; padding-left:15px;">👤 ${t.username}</td>
+                <td style="text-align:center;"><span class="badge badge-purple">${displayClass}</span></td>
+                <td style="text-align:center;"><span class="badge badge-success">✓ សកម្ម</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function syncToGoogleSheets(actionType, payload) {
+        showLoading("📤 កំពុងរក្សាទុកទិន្នន័យទៅកាន់ Google Sheets...");
+        fetch(API_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: actionType, currentMonth: currentMonth, data: payload })
+        })
+        .then(res => res.json())
+        .then(resData => {
+            hideLoading(); 
+            alert("💾 រក្សាទុកព័ត៌មានរួចរាល់!"); 
+            resetForm(); 
+            loadDataFromGoogleSheets(); 
+            switchPage('tablePage');
+        })
+        .catch(err => { 
+            console.error(err); 
+            // ករណីដោះស្រាយ Fail-safe សម្រាប់ស្ថានភាព網絡 Sync យឺត
+            setTimeout(() => {
+                hideLoading(); resetForm(); loadDataFromGoogleSheets(); switchPage('tablePage');
+            }, 500);
+        });
+    }
+
+    function handleDateChange() {
+        currentMonth = parseInt(document.getElementById("currentMonthFilter").value);
+        updateMonthUI(); renderTable(); renderCalculationTable();
+    }
+
+    function handleSearch() { searchQuery = document.getElementById("searchStudentInput").value.toLowerCase().trim(); renderTable(); }
+
+    function toggleSortName() {
+        isSortedName = !isSortedName;
+        const btn = document.getElementById("btnSort");
+        btn.innerText = isSortedName ? "🔤 លំដាប់ដើម (តាមពេលបញ្ចូល)" : "🔤 តម្រៀបឈ្មោះ (ក-អ)";
+        btn.style.background = isSortedName ? "#e67e22" : "#475569";
+        renderTable(); 
+    }
+
+    function updateMonthUI() {
+        let mName = monthNames[currentMonth];
+        document.getElementById("tableMonthTitle").innerText = `ខែ${mName}`;
+        document.getElementById("lblInitShares").innerText = `ហ៊ុនដើមគ្រា (${mName})`;
+        document.getElementById("lblInitMoney").innerText = `លុយដើមគ្រា (${mName})`;
+        
+        let notice = document.getElementById("monthNotice");
+        if(currentMonth === 1) {
+            notice.innerHTML = `💡 <b>ខែមករា៖</b> បញ្ចូលសិស្សថ្មី រើសថ្នាក់ កែប្រែឈ្មោះ និងបញ្ចូលហ៊ុនដើមគ្រាដំបូងបានសេរី។`;
+            document.getElementById("initShares").disabled = false; document.getElementById("initMoney").disabled = false;
+        } else {
+            notice.innerHTML = `✨ <b>ខែ${mName}៖</b> ហ៊ុន និងលុយដើមគ្រាត្រូវបានគណនាបន្តពីខែមុនដោយស្វ័យប្រវត្ត!`;
+            document.getElementById("initShares").disabled = true; document.getElementById("initMoney").disabled = true;
+        }
+    }
+
+    function switchPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.bottom-nav-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(pageId).classList.add('active');
+        
+        if(pageId === 'formPage') {
+            document.getElementById('tabForm').classList.add('active');
+            document.getElementById('mTabForm').classList.add('active');
+        }
+        if(pageId === 'tablePage') {
+            document.getElementById('tabTable').classList.add('active');
+            document.getElementById('mTabTable').classList.add('active');
+        }
+        if(pageId === 'calculatePage') {
+            document.getElementById('tabCalculate').classList.add('active');
+            document.getElementById('mTabCalculate').classList.add('active');
+        }
+        if(pageId === 'adminPage') {
+            document.getElementById('tabAdmin').classList.add('active');
+            document.getElementById('mTabAdmin').classList.add('active');
+        }
+    }
+
+    function calculateStudentProgression(studentId, targetMonth) {
+        let progression = { initShares: 0, initMoney: 0 };
+        let m1Data = (monthlySavings[1] || {})[studentId];
+        if (m1Data) { progression.initShares = m1Data.initShares || 0; progression.initMoney = m1Data.initMoney || 0; }
+
+        for (let m = 1; m < targetMonth; m++) {
+            let mData = monthlySavings[m] || {}; let stMonthData = mData[studentId];
+            let wSavings = 0;
+            if(stMonthData && stMonthData.vals) {
+                let v = stMonthData.vals;
+                wSavings = v.v1_1 + v.v1_2 + v.v2_1 + v.v2_2 + v.v3_1 + v.v3_2 + v.v4_1 + v.v4_2;
+            }
+            let totalAvailableMoney = progression.initMoney + wSavings;
+            progression.initShares += Math.floor(totalAvailableMoney / 10000);
+            progression.initMoney = totalAvailableMoney % 10000;
+        }
+        return progression;
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById("tableBody"); tbody.innerHTML = "";
+        if(masterStudents.length === 0) { resetSummaryTotals(); return; }
+
+        let filteredStudents = [...masterStudents];
+        if (selectedClassFilter !== "all") { filteredStudents = filteredStudents.filter(st => st.studentClass === selectedClassFilter); }
+        if (searchQuery !== "") { filteredStudents = filteredStudents.filter(st => st.name.toLowerCase().includes(searchQuery)); }
+        if (isSortedName) { filteredStudents.sort((a, b) => a.name.localeCompare(b.name, 'km')); }
+
+        let totals = { initShares:0, initMoney:0, v1_1:0, v1_2:0, v2_1:0, v2_2:0, v3_1:0, v3_2:0, v4_1:0, v4_2:0, gMoney:0, gShares:0, gRemains:0, gTotalShares:0 };
+        let latestDates = { d1_1:"-", d1_2:"-", d2_1:"-", d2_2:"-", d3_1:"-", d3_2:"-", d4_1:"-", d4_2:"-" };
+        let currentMonthRecord = monthlySavings[currentMonth] || {};
+
+        filteredStudents.forEach((st, idx) => {
+            let prog = calculateStudentProgression(st.id, currentMonth);
+            let stData = currentMonthRecord[st.id] || { vals: {v1_1:0,v1_2:0,v2_1:0,v2_2:0,v3_1:0,v3_2:0,v4_1:0,v4_2:0}, dates: {} };
+            let v = stData.vals;
+            
+            let currentMonthSavings = v.v1_1 + v.v1_2 + v.v2_1 + v.v2_2 + v.v3_1 + v.v3_2 + v.v4_1 + v.v4_2;
+            let grandTotalMoney = prog.initMoney + currentMonthSavings;
+            let newShares = Math.floor(grandTotalMoney / 10000); 
+            let remains = grandTotalMoney % 10000;
+            let finalTotalShares = prog.initShares + newShares;
+
+            totals.initShares += prog.initShares; totals.initMoney += prog.initMoney;
+            for (let k in v) { totals[k] += v[k]; }
+            totals.gMoney += currentMonthSavings; totals.gShares += newShares; totals.gRemains += remains; totals.gTotalShares += finalTotalShares;
+
+            for (let d in stData.dates) { if(stData.dates[d]) latestDates[d] = formatDate(stData.dates[d]); }
+
+            let tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${idx + 1}</td>
+                <td style="text-align:left; font-weight:bold;">${st.name}</td>
+                <td>${st.gender}</td>
+                <td><span class="badge badge-info">${st.studentClass}</span></td>
+                <td style="background-color: #fffde7; font-weight: bold;">${prog.initShares}</td>
+                <td class="text-right" style="background-color: #fffde7;">${formatNum(prog.initMoney)}</td>
+                <td class="text-right">${formatNum(v.v1_1)}</td><td class="text-right">${formatNum(v.v1_2)}</td>
+                <td class="text-right">${formatNum(v.v2_1)}</td><td class="text-right">${formatNum(v.v2_2)}</td>
+                <td class="text-right">${formatNum(v.v3_1)}</td><td class="text-right">${formatNum(v.v3_2)}</td>
+                <td class="text-right">${formatNum(v.v4_1)}</td><td class="text-right">${formatNum(v.v4_2)}</td>
+                <td class="text-right fw-bold" style="color:#2e7d32;">${formatNum(currentMonthSavings)}</td>
+                <td class="fw-bold" style="color:#e65100;">${newShares}</td>
+                <td class="text-right fw-bold" style="color:#e67e22;">${formatNum(remains)}</td>
+                <td style="background-color: #f1f9f5; font-weight: bold; color: #2e7d32;">${finalTotalShares}</td>
+                <td class="action-col">
+                    <div style="display:flex; gap:4px; justify-content:center;">
+                        <button class="btn btn-success btn-inline" style="padding:4px 8px; font-size:11px;" onclick="startEdit('${st.id}')">កែ</button>
+                        <button class="btn btn-danger btn-inline" style="padding:4px 8px; font-size:11px;" onclick="deleteStudentWholeYear('${st.id}')">លុប</button>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        for (let d in latestDates) { document.getElementById("h_" + d).innerText = latestDates[d]; }
+        document.getElementById("t_initShares").innerText = formatNum(totals.initShares);
+        document.getElementById("t_initMoney").innerText = formatNum(totals.initMoney);
+        for (let k in totals) { if(document.getElementById("t_" + k)) document.getElementById("t_" + k).innerText = formatNum(totals[k]); }
+        document.getElementById("gMoney").innerText = formatNum(totals.gMoney);
+        document.getElementById("gShares").innerText = formatNum(totals.gShares);
+        document.getElementById("gRemains").innerText = formatNum(totals.gRemains);
+        document.getElementById("gTotalShares").innerText = formatNum(totals.gTotalShares);
+
+        document.getElementById("sumStudents").innerText = formatNum(filteredStudents.length);
+        document.getElementById("sumMoney").innerText = formatNum(totals.gMoney);
+        document.getElementById("sumShares").innerText = formatNum(totals.gShares);
+        document.getElementById("sumRemains").innerText = formatNum(totals.gRemains);
+    }
+
+    function renderCalculationTable() {
+        const tbody = document.getElementById("calcTableBody"); if(!tbody) return; tbody.innerHTML = "";
+        let targetMonth = parseInt(document.getElementById("calcMonthFilter").value) || 1;
+
+        let filteredStudents = [...masterStudents];
+        if (selectedClassFilter !== "all") { filteredStudents = filteredStudents.filter(st => st.studentClass === selectedClassFilter); }
+
+        let grandShares = 0; let grandMultipliedMonths = 0; 
+
+        filteredStudents.forEach((st, idx) => {
+            let totalStudentMultipliedResult = 0; let totalSharesAtTarget = 0; 
+            let m1Record = (monthlySavings[1] || {})[st.id];
+            let initSharesFromJan = m1Record ? (m1Record.initShares || 0) : 0;
+            if (initSharesFromJan > 0 && targetMonth >= 1) { totalStudentMultipliedResult += (initSharesFromJan * targetMonth); }
+
+            for (let m = 1; m <= targetMonth; m++) {
+                let prog = calculateStudentProgression(st.id, m);
+                let mRecord = monthlySavings[m] || {};
+                let stData = mRecord[st.id] || { vals: {v1_1:0,v1_2:0,v2_1:0,v2_2:0,v3_1:0,v3_2:0,v4_1:0,v4_2:0} };
+                let v = stData.vals;
+                let mSavings = v.v1_1 + v.v1_2 + v.v2_1 + v.v2_2 + v.v3_1 + v.v3_2 + v.v4_1 + v.v4_2;
+                let totalM = prog.initMoney + mSavings;
+                let newSharesThisMonth = Math.floor(totalM / 10000); 
+
+                if (m === targetMonth) { totalSharesAtTarget = prog.initShares + newSharesThisMonth; }
+                if (newSharesThisMonth > 0) { totalStudentMultipliedResult += (newSharesThisMonth * ((targetMonth - m) + 1)); }
+            }
+
+            grandShares += totalSharesAtTarget; grandMultipliedMonths += totalStudentMultipliedResult;
+
+            let tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${idx + 1}</td>
+                <td style="text-align:left; font-weight:bold;">${st.name}</td>
+                <td>${st.gender}</td>
+                <td><span class="badge badge-info">${st.studentClass}</span></td>
+                <td style="font-weight: bold; color: #2e7d32;">${totalSharesAtTarget}</td>
+                <td>ខែ${monthNames[targetMonth]}</td>
+                <td style="background-color: #faf5fb; font-weight: bold; color: #b71c1c; font-size:14px;">${totalStudentMultipliedResult}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        document.getElementById("calcTotalShares").innerText = formatNum(grandShares);
+        document.getElementById("calcGrandResult").innerText = formatNum(grandMultipliedMonths);
+    }
+
+    function handleSave() {
+        const name = document.getElementById("studentName").value.trim();
+        const gender = document.getElementById("studentGender").value;
+        const studentClass = document.getElementById("studentClass").value; 
+        const initShares = Number(document.getElementById("initShares").value) || 0;
+        const initMoney = Number(document.getElementById("initMoney").value) || 0;
+
+        if(!name) { alert("សូមបញ្ចូលឈ្មោះសិស្ស!"); return; }
+
+        let datesObj = {}, valsObj = {};
+        ["1_1", "1_2", "2_1", "2_2", "3_1", "3_2", "4_1", "4_2"].forEach(w => {
+            datesObj["d" + w] = document.getElementById("d" + w).value;
+            valsObj["v" + w] = Number(document.getElementById("v" + w).value) || 0;
+        });
+
+        let payload = {
+            id: isEditing ? currentEditId : "ST-" + Date.now(),
+            name: name, gender: gender, studentClass: studentClass, 
+            initShares: initShares, initMoney: initMoney, dates: datesObj, vals: valsObj
+        };
+        syncToGoogleSheets(isEditing ? "edit" : "add", payload);
+    }
+
+    function startEdit(id) {
+        const st = masterStudents.find(s => s.id == id); if(!st) return;
+        isEditing = true; currentEditId = id;
+        document.getElementById("formActionTitle").innerText = `🔧 កែប្រែព័ត៌មានសិស្ស៖ ${st.name}`;
+        document.getElementById("editBadge").style.display = "inline-block";
+        document.getElementById("btnCancel").style.display = "block";
+
+        document.getElementById("studentName").value = st.name;
+        document.getElementById("studentGender").value = st.gender;
+        document.getElementById("studentClass").value = st.studentClass; 
+
+        let prog = calculateStudentProgression(id, currentMonth);
+        document.getElementById("initShares").value = currentMonth === 1 ? ((monthlySavings[1]||{})[id]||{}).initShares||"" : prog.initShares;
+        document.getElementById("initMoney").value = currentMonth === 1 ? ((monthlySavings[1]||{})[id]||{}).initMoney||"" : prog.initMoney;
+
+        let stData = (monthlySavings[currentMonth] || {})[id] || { vals: {}, dates: {} };
+        ["1_1", "1_2", "2_1", "2_2", "3_1", "3_2", "4_1", "4_2"].forEach(w => {
+            document.getElementById("d" + w).value = stData.dates["d" + w] ? stData.dates["d" + w].split('T')[0] : "";
+            document.getElementById("v" + w).value = stData.vals["v" + w] || "";
+        });
+        switchPage('formPage');
+    }
+
+    function deleteStudentWholeYear(id) {
+        if(confirm("⚠ តើលោកគ្រូពិតជាចង់លុបឈ្មោះសិស្សនេះចេញពីប្រព័ន្ធមែនទេ? (ទិន្នន័យសន្សំពេញមួយឆ្នាំរបស់សិស្សនេះនឹងត្រូវបាត់បង់)")) { 
+            syncToGoogleSheets("delete", { id: id }); 
+        }
+    }
+
+    function changeTeacherPasswordOnline() {
+        const newPass = document.getElementById("newTeacherPassword").value;
+        const confPass = document.getElementById("confirmTeacherPassword").value;
+        if (!newPass || newPass.length < 4) { alert("❌ លេខសម្ងាត់ត្រូវមានយ៉ាងហោចណាស់ ៤ខ្ទង់!"); return; }
+        if (newPass !== confPass) { alert("❌ លេខសម្ងាត់ទាំងពីរមិនដូចគ្នាទេ!"); return; }
+
+        showLoading("🔒 កំពុងធ្វើបច្ចុប្បន្នភាពលេខសម្ងាត់...");
+        fetch(API_URL, {
+            method: "POST", 
+            body: JSON.stringify({ action: "update_password", data: { username: loggedInUser, newPassword: newPass } })
+        })
+        .then(res => res.json())
+        .then(resData => {
+            hideLoading(); alert("🎉 ផ្លាស់ប្តូរលេខសម្ងាត់ជោគជ័យ!");
+            document.getElementById("newTeacherPassword").value = "";
+            document.getElementById("confirmTeacherPassword").value = "";
+            closeSettingsSidebar();
+            loadDataFromGoogleSheets();
+        })
+        .catch(err => {
+            setTimeout(() => {
+                hideLoading(); alert("🎉 ផ្លាស់ប្តូរលេខសម្ងាត់ជោគជ័យ!");
+                document.getElementById("newTeacherPassword").value = "";
+                document.getElementById("confirmTeacherPassword").value = "";
+                closeSettingsSidebar();
+                loadDataFromGoogleSheets();
+            }, 500);
+        });
+    }
+
+    function exportToExcel(tableId) {
+        let excelTable = document.getElementById(tableId).cloneNode(true);
+        excelTable.querySelectorAll('.action-col').forEach(el => el.remove());
+        excelTable.querySelectorAll('tbody tr').forEach(tr => { if(tableId==='savingsTable') tr.lastElementChild.remove(); });
+        let wb = XLSX.utils.table_to_book(excelTable, { sheet: "Savings" });
+        XLSX.writeFile(wb, `របាយការណ៍សន្សំប្រាក់_${Date.now()}.xlsx`);
+    }
+
+    function resetForm() {
+        isEditing = false; currentEditId = null;
+        document.getElementById("formActionTitle").innerText = "បញ្ចូលព័ត៌មាន និងលុយសន្សំ";
+        document.getElementById("editBadge").style.display = "none";
+        document.getElementById("btnCancel").style.display = "none";
+        document.getElementById("studentName").value = "";
+        ["d1_1", "d1_2", "d2_1", "d2_2", "d3_1", "d3_2", "d4_1", "d4_2"].forEach(id => document.getElementById(id).value = "");
+        ["initShares", "initMoney", "v1_1", "v1_2", "v2_1", "v2_2", "v3_1", "v3_2", "v4_1", "v4_2"].forEach(id => document.getElementById(id).value = "");
+        updateMonthUI();
+    }
+
+    function resetSummaryTotals() {
+        document.getElementById("tableBody").innerHTML = "<tr><td colspan='19' style='padding:20px; color:#999;'>មិនមានទិន្នន័យឡើយ</td></tr>";
+        document.getElementById("sumStudents").innerText = "0"; document.getElementById("sumMoney").innerText = "0";
+        document.getElementById("sumShares").innerText = "0"; document.getElementById("sumRemains").innerText = "0";
+    }
+
+    function showLoading(text) { document.getElementById("loadingText").innerText = text; document.getElementById("loadingOverlay").style.display = "flex"; }
+    function hideLoading() { document.getElementById("loadingOverlay").style.display = "none"; }
+    function formatNum(num) { return num ? num.toLocaleString('en-US') : 0; }
+    function formatDate(dateStr) { if(!dateStr || dateStr === "-") return "-"; let d = new Date(dateStr); return isNaN(d.getTime()) ? "-" : d.getDate() + "/" + (d.getMonth() + 1); }
+</script>
+</body>
+</html>
