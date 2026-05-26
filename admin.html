@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ផ្ទាំងគ្រប់គ្រង និងបង្កើតគណនីគ្រូ </title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Khmer+OS+Battambang&display=swap');
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Kantumruy Pro', 'Khmer OS Battambang', sans-serif; }
+        body { background-color: #f1f5f9; padding: 40px 15px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .admin-card { background: white; width: 100%; max-width: 480px; padding: 35px 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border-top: 6px solid #c2185b; text-align: center; }
+        h2 { color: #c2185b; font-size: 20px; margin-bottom: 5px; font-weight: 700; }
+        p { color: #64748b; font-size: 13px; margin-bottom: 25px; }
+        .form-group { margin-bottom: 18px; text-align: left; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155; }
+        .form-control { width: 100%; padding: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; transition: border 0.2s; }
+        .form-control:focus { border-color: #c2185b; box-shadow: 0 0 0 3px rgba(194,24,91,0.1); }
+        
+        /* ប៊ូតុង */
+        .btn-submit { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; background-color: #c2185b; color: white; transition: background 0.2s; margin-top: 10px; }
+        .btn-submit:hover { background-color: #9e1249; }
+        
+        .btn-back { width: 100%; padding: 12px; border: 1px solid #c2185b; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; background-color: transparent; color: #c2185b; transition: all 0.2s; margin-top: 10px; }
+        .btn-back:hover { background-color: #fce4ec; }
+        
+        /* ផ្ទាំង Loading */
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 9999; justify-content: center; align-items: center; flex-direction: column; }
+        .spinner { width: 45px; height: 45px; border: 4px solid #f3f3f3; border-top: 4px solid #c2185b; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { margin-top: 12px; font-weight: bold; color: #c2185b; font-size: 14px; }
+        .school-logo {
+        width: 100px;         /* កំណត់ទំហំរូបភាពតាមតម្រូវការ */
+        height: auto;
+        display: block;
+        margin: 0 auto 15px auto; /* ធ្វើឱ្យរូបភាពនៅចំកណ្ដាល និងមានគម្លាតខាងក្រោម */
+    }
+
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <img src="logo_KPL_School.png" alt="Logo" class="school-logo">
+    <span>👑</span>
+    <h2>ប្រព័ន្ធគ្រប់គ្រងរបស់លោកគ្រូ Admin</h2>
+    <p>បង្កើតគណនីគ្រូថ្មី សម្រាប់យកទៅប្រើក្នុងផ្ទាំងសន្សំប្រាក់</p>
+    
+    <div class="form-group">
+        <label>👤 ឈ្មោះគណនីគ្រូថ្មី (Username)៖</label>
+        <input type="text" id="teacherUser" class="form-control" placeholder="ឧទាហរណ៍៖ Sophorn">
+    </div>
+    
+    <div class="form-group">
+        <label>🔑 លេខសម្ងាត់ដំបូង (Password)៖</label>
+        <input type="password" id="teacherPass" class="form-control" placeholder="វាយលេខសម្ងាត់យ៉ាងហោចណាស់ ៤ខ្ទង់...">
+    </div>
+    
+    <div class="form-group">
+        <label>🏫 ថ្នាក់ទទួលខុសត្រូវ (Assigned Class)៖</label>
+        <select id="teacherClass" class="form-control">
+            <option value="១(ក)">ថ្នាក់ទី ១(ក)</option><option value="១(ខ)">ថ្នាក់ទី ១(ខ)</option>
+            <option value="២(ក)">ថ្នាក់ទី ២(ក)</option><option value="២(ខ)">ថ្នាក់ទី ២(ខ)</option>
+            <option value="៣(ក)">ថ្នាក់ទី ៣(ក)</option><option value="៣(ខ)">ថ្នាក់ទី ៣(ខ)</option>
+            <option value="៤(ក)" selected>ថ្នាក់ទី ៤(ក)</option><option value="៤(ខ)">ថ្នាក់ទី ៤(ខ)</option>
+            <option value="៥(ក)">ថ្នាក់ទី ៥(ក)</option><option value="៥(ខ)">ថ្នាក់ទី ៥(ខ)</option>
+            <option value="៦(ក)">ថ្នាក់ទី ៦(ក)</option><option value="៦(ខ)">ថ្នាក់ទី ៦(ខ)</option>
+        </select>
+    </div>
+    
+    <button type="button" class="btn-submit" onclick="createNewTeacher()">💾 បង្កើត និងរក្សាទុកគណនី</button>
+    <button type="button" class="btn-back" onclick="window.history.back()">⬅️ ត្រឡប់ទៅកាន់ផ្ទាំង Login</button>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="spinner"></div>
+    <div class="loading-text">🔒 កំពុងរក្សាទុកគណនីទៅកាន់ប្រព័ន្ធអនឡាញ...</div>
+</div>
+
+<script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxof5Q4OPkZz7HsRw_irkkl_3hcJCznXBfOrZwQSvK5V2INApJLN8bKW_gMWQj0EaHR/exec";
+
+    function createNewTeacher() {
+        const username = document.getElementById("teacherUser").value.trim().toLowerCase();
+        const password = document.getElementById("teacherPass").value;
+        const assignedClass = document.getElementById("teacherClass").value;
+
+        if(!username || !password) {
+            alert("❌ សូមបំពេញឈ្មោះគណនី និងលេខសម្ងាត់ឱ្យបានគ្រប់គ្រាន់!");
+            return;
+        }
+        if(password.length < 4) {
+            alert("❌ លេខសម្ងាត់ត្រូវមានប្រវែងយ៉ាងហោចណាស់ ៤ខ្ទង់!");
+            return;
+        }
+
+        showLoading();
+
+        fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                action: "register",
+                data: { username: username, password: password, assignedClass: assignedClass }
+            })
+        })
+        .then(() => {
+            hideLoading();
+            alert(`🎉 ជោគជ័យ! គណនីគ្រូ "${username}" ត្រូវបានបង្កើតរួចរាល់។`);
+            document.getElementById("teacherUser").value = "";
+            document.getElementById("teacherPass").value = "";
+        })
+        .catch(err => {
+            console.error(err);
+            hideLoading();
+            alert("❌ មានបញ្ហា! មិនអាចបង្កើតគណនីបានទេ សូមពិនិត្យអ៊ីនធឺណិតឡើងវិញ។");
+        });
+    }
+
+    function showLoading() { document.getElementById("loadingOverlay").style.display = "flex"; }
+    function hideLoading() { document.getElementById("loadingOverlay").style.display = "none"; }
+</script>
+</body>
+</html>
